@@ -18,6 +18,13 @@ public class ControllerGrabObject : MonoBehaviour {
 		trackedObj = GetComponent<SteamVR_TrackedObject> ();
 	}
 
+	private void SetCollidingObject(Collider col){
+		if (collidingObject || !col.GetComponent<Rigidbody> ()) {
+			return;
+		}
+		collidingObject = col.gameObject;
+	}
+
 	public void OnTriggerEnter(Collider other){
 		SetCollidingObject(other);
 	}
@@ -34,7 +41,6 @@ public class ControllerGrabObject : MonoBehaviour {
 
 	//Grabbing an object
 
-	private void
 
 
 
