@@ -70,9 +70,9 @@ public class MyBezierCurve : MonoBehaviour {
        return oneMinT*oneMinT*oneMinT * p1 + 3f * oneMinT * oneMinT * time * p2 + 3f * oneMinT * time * time * p3 + time * time * time * p4;
 
 
-		return (3f * oneMinT * oneMinT * (p2 - p1) +
-			6f * oneMinT * time * (p3 - p2) +
-			3f * time * time * (p4 - p3));
+		//return (3f * oneMinT * oneMinT * (p2 - p1) +
+		//	6f * oneMinT * time * (p3 - p2) +
+		//	3f * time * time * (p4 - p3));
 
 	}
 }
