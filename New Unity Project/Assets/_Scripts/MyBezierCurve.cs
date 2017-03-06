@@ -22,26 +22,31 @@ public class MyBezierCurve : MonoBehaviour {
 			lineRenderer = GetComponent<LineRenderer>();
 		}
 		lineRenderer.sortingOrder = layerOrder;
-		numCurves = (int)controlPoints.Length / 4;
-		DrawCurve ();
+		numCurves = (int)controlPoints.Length / 3;
+		//DrawCurve ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
 		DrawCurve ();
 	}
 
 	void DrawCurve(){
 		int start = 0;
-		for (int i = 1; i < numCurves; i++) {
-			start = i * 3;
-			for (int seg = 0; seg <= numSegments; seg++) {
-				double time = i / numSegments;
+		for (int i = 0; i < numCurves; i++) {
+			
+			for (int seg = 1; seg <= numSegments; seg++) {
+				float time = seg / (float)numSegments;
+                start = i * 3;
+                //Debug.Log(time);
+                //Debug.Log(" time");
 
-				Vector3 point = EvalBezierPoint ((float)time, controlPoints[start].position, controlPoints [start + 1].position, controlPoints [start + 2].position, controlPoints [start + 3].position);
-
-				lineRenderer.numPositions = numCurves*numSegments;
-				lineRenderer.SetPosition (i * numSegments + (seg - 1), point);
+				Vector3 point = EvalBezierPoint (time, controlPoints[start].position, controlPoints [start + 1].position, controlPoints [start + 2].position, controlPoints [start + 3].position);
+                lineRenderer.numPositions = (i * numSegments) + seg;
+                //Debug.Log(lineRenderer.numPositions);
+                //Debug.Log(i * numSegments + (seg - 1));
+				lineRenderer.SetPosition ((i * numSegments) + (seg - 1), point);
 
 			}
 		}
@@ -62,9 +67,12 @@ public class MyBezierCurve : MonoBehaviour {
 
 		float oneMinT = 1f - time;
 
-		return 3f * oneMinT * oneMinT * (p2 - p1) +
+       return oneMinT*oneMinT*oneMinT * p1 + 3f * oneMinT * oneMinT * time * p2 + 3f * oneMinT * time * time * p3 + time * time * time * p4;
+
+
+		return (3f * oneMinT * oneMinT * (p2 - p1) +
 			6f * oneMinT * time * (p3 - p2) +
-			3f * time * time * (p4 - p3);
+			3f * time * time * (p4 - p3));
 
 	}
 }
