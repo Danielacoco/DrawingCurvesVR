@@ -42,7 +42,7 @@ public class MyBezierCurve : MonoBehaviour {
                 //Debug.Log(time);
                 //Debug.Log(" time");
 
-				Vector3 point = EvalBezierPoint (time, controlPoints[start].position, controlPoints [start + 1].position, controlPoints [start + 2].position, controlPoints [start + 3].position);
+				Vector3 point = EvalBezPoint (time, start);
                 lineRenderer.numPositions = (i * numSegments) + seg;
                 //Debug.Log(lineRenderer.numPositions);
                 //Debug.Log(i * numSegments + (seg - 1));
@@ -52,6 +52,10 @@ public class MyBezierCurve : MonoBehaviour {
 		}
 	}
 
+    public Vector3 EvalBezPoint(float time, int start)
+    {
+        return EvalBezierPoint(time, controlPoints[start].position, controlPoints[start+1].position, controlPoints[start + 2].position, controlPoints[start + 3].position);
+    }
 	Vector3 EvalBezierPoint ( float time, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4){
 //		Matrix4x4 geomMatrix = new Matrix4x4 {p1 [0], p1 [1], p1 [2], 1,
 //			p2 [0], p2 [1], p2 [2], 1,
