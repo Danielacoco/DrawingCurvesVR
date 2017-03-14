@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MyBezierCurve : MonoBehaviour {
 
-	public Transform[] controlPoints;
-	public LineRenderer lineRenderer;
+    public List<Transform> controlPoints;
+    public LineRenderer lineRenderer;
+    public float segDuration;
 //	public Matrix4x4 basisMatrix = new Matrix4x4 {-1, 3, -3, 1,
 //		3, -6, 3, 0, 
 //		-3, 3, 0, 0, 
@@ -15,27 +16,32 @@ public class MyBezierCurve : MonoBehaviour {
 	private int numCurves = 0;
 	private int layerOrder = 0;
 	private int numSegments = 50;
+    private int numPoints;
+
 
 	// Use this for initialization
 	void Start () {
 		if (!lineRenderer){
 			lineRenderer = GetComponent<LineRenderer>();
 		}
-		lineRenderer.sortingOrder = layerOrder;
-		numCurves = (int)controlPoints.Length / 3;
-		//DrawCurve ();
-	}
+        numPoints = controlPoints.Count;
+        lineRenderer.sortingOrder = layerOrder;
+        numCurves = 1 + ((numPoints - 4) / 3);
+
+        //DrawCurve ();
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-		DrawCurve ();
+        numCurves = 1 + ((numPoints-4) / 3);
+        DrawCurve ();
 	}
 
 	void DrawCurve(){
 		int start = 0;
+        
 		for (int i = 0; i < numCurves; i++) {
-			
 			for (int seg = 1; seg <= numSegments; seg++) {
 				float time = seg / (float)numSegments;
                 start = i * 3;
@@ -51,6 +57,30 @@ public class MyBezierCurve : MonoBehaviour {
 			}
 		}
 	}
+
+    public int getNumCurves()
+    {
+        return numCurves;
+    }
+
+    public int getStartIndex(int numCurve)
+    {
+        return numCurve * 3;
+
+    }
+
+    public int getEndIndex(int numCurve)
+    {
+        return (numCurve * 3) + 3;
+        
+
+    }
+
+    public void ExtendCurve(ControlPoint cp)
+    {
+        this.controlPoints.Add(cp.transform);
+        this.numPoints++;
+    }
 
     public Vector3 EvalBezPoint(float time, int start)
     {

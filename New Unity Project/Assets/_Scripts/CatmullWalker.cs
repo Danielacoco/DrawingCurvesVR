@@ -14,7 +14,7 @@ public class CatmullWalker : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        duration = curve.segDuration * curve.controlPoints.Length - 1;
+        duration = curve.segDuration * curve.controlPoints.Count - 1;
 
     }
 

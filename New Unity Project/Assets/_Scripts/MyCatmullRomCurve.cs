@@ -6,12 +6,13 @@ public class MyCatmullRomCurve : MonoBehaviour {
 
     public bool catmull;
     public float segDuration = 1;
-    public Transform[] controlPoints;
+    public List<Transform> controlPoints;
     public LineRenderer lineRenderer;
 
     private int numCurves = 0;
     private int layerOrder = 0;
     private int numSegments = 50;
+    private int numPoints;
 
     // Use this for initialization
     void Start()
@@ -24,12 +25,13 @@ public class MyCatmullRomCurve : MonoBehaviour {
 
         if (catmull)
         {
-            numCurves = (int)controlPoints.Length - 1;
+            numCurves = (int)controlPoints.Count - 1;
         }
         else
         {
-            numCurves = (int)controlPoints.Length + 1;
+            numCurves = (int)controlPoints.Count + 1;
         }
+        numPoints = (int)controlPoints.Count;
         
         DrawCurve ();
     }
@@ -57,6 +59,13 @@ public class MyCatmullRomCurve : MonoBehaviour {
                 lineRenderer.SetPosition((i * numSegments) + seg-1, point);
             }
         }
+    }
+
+    public void ExtendCurve(ControlPoint cp)
+    {
+        this.controlPoints.Add(cp.transform);
+        this.numPoints++;
+        this.numCurves++;
     }
 
     Vector3 EvalCurvePointSeg(float time, int segNum)
@@ -96,8 +105,8 @@ public class MyCatmullRomCurve : MonoBehaviour {
         //Debug.Log(start + " sTART");
         Vector3 p1 = controlPoints[Mathf.Max(start, 0)].position;
         Vector3 p2 = controlPoints[Mathf.Max(start + 1, 0)].position;
-        Vector3 p3 = controlPoints[Mathf.Min(end - 1, controlPoints.Length - 1)].position;
-        Vector3 p4 = controlPoints[Mathf.Min(end, controlPoints.Length - 1)].position;
+        Vector3 p3 = controlPoints[Mathf.Min(end - 1, controlPoints.Count - 1)].position;
+        Vector3 p4 = controlPoints[Mathf.Min(end, controlPoints.Count - 1)].position;
         //The coefficients of the cubic polynomial (except the 0.5f * which I added later for performance)
         Vector3 a = 2f * p2;
         Vector3 b = p3 - p1;
