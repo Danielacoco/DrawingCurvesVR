@@ -43,6 +43,11 @@ public class MyCatmullRomCurve : MonoBehaviour {
         DrawCurve();
     }
 
+    public int getNumCurves()
+    {
+        return numCurves;
+    }
+
     void DrawCurve()
     {
         for (int i = 0; i < numCurves; i++)
@@ -68,7 +73,7 @@ public class MyCatmullRomCurve : MonoBehaviour {
         this.numCurves++;
     }
 
-    Vector3 EvalCurvePointSeg(float time, int segNum)
+    public Vector3 EvalCurvePointSeg(float time, int segNum)
     {
         return EvalCurvePoint(time, getStartIndex(segNum), getEndIndex(segNum));
     }
@@ -114,9 +119,10 @@ public class MyCatmullRomCurve : MonoBehaviour {
         Vector3 d = -p1 + 3f * p2 - 3f * p3 + p4;
 
         //The cubic polynomial: a + b * t + c * t^2 + d * t^3
+        Vector3 pos1 = 0.5f * ((2 * p2) + (-p1 + p3) * time + (2 * p1 - 5 * p2 + 4 * p3 - p4) * Mathf.Pow(time, 2) + (-p1 + 3 * p2 - 3 * p3 + p4) * Mathf.Pow(time, 3));
         Vector3 pos = 0.5f * (a + (b * time) + (c * time * time) + (d * time * time * time));
 
-        return pos;
+        return pos1;
     }
 
        // //Debug.Log(Mathf.Max(start, 0) + "MAX");
