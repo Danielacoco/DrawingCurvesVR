@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyCatmullRomCurve : MonoBehaviour {
+public class MyCatmullRomCurve : MonoBehaviour
+{
 
     public bool catmull;
     public float segDuration = 1;
@@ -32,8 +33,8 @@ public class MyCatmullRomCurve : MonoBehaviour {
             numCurves = (int)controlPoints.Count + 1;
         }
         numPoints = (int)controlPoints.Count;
-        
-        DrawCurve ();
+
+        DrawCurve();
     }
 
     // Update is called once per frame
@@ -59,9 +60,9 @@ public class MyCatmullRomCurve : MonoBehaviour {
                 int indexEnd = getEndIndex(i);
                 float time = seg / (float)numSegments;
                 Vector3 point = EvalCurvePoint(time, indexStart, indexEnd);
-               // Debug.Log((i * numSegments + seg) + "NUMSEGS");
+                // Debug.Log((i * numSegments + seg) + "NUMSEGS");
                 lineRenderer.numPositions = (i * numSegments) + seg;
-                lineRenderer.SetPosition((i * numSegments) + seg-1, point);
+                lineRenderer.SetPosition((i * numSegments) + seg - 1, point);
             }
         }
     }
@@ -124,30 +125,4 @@ public class MyCatmullRomCurve : MonoBehaviour {
 
         return pos1;
     }
-
-       // //Debug.Log(Mathf.Max(start, 0) + "MAX");
-       // //Debug.Log(start + " sTART");
-       // Vector3 p1 = controlPoints[Mathf.Max(start, 0)].position;
-       // Vector3 p2 = controlPoints[Mathf.Max(start+1, 0)].position;
-       // Vector3 p3 = controlPoints[Mathf.Min(end - 1, controlPoints.Length - 1)].position;
-       // Vector3 p4 = controlPoints[Mathf.Min(end, controlPoints.Length - 1)].position;
-       // Matrix4x4 geomMatrix = new Matrix4x4();
-       // geomMatrix.SetColumn(0, new Vector4(p1[0], p2[0], p3[0], p4[0]));
-       // geomMatrix.SetColumn(1, new Vector4(p1[1], p2[1], p3[1], p4[1]));
-       // geomMatrix.SetColumn(2, new Vector4(p1[2], p2[2], p3[2], p4[2]));
-       // geomMatrix.SetColumn(3, new Vector4(0, 0, 0, 0));
-
-    //// Debug.Log
-
-    // Vector4 T = new Vector4  (time * time * time, time * time, time, 1 );
-    // Matrix4x4 basisMatrix = new Matrix4x4();
-    // basisMatrix.SetColumn(0, (new Vector4(-1f,2f,-1f,0f)* 0.5f));
-    // basisMatrix.SetColumn(1, new Vector4(3f,-5f,0f,2f)* 0.5f);
-    // basisMatrix.SetColumn(2, new Vector4(-3f, 4f, 1f, 0f)*0.5f);
-    // basisMatrix.SetColumn(3, new Vector4(1, -1, 0, 0 )*0.5f);
-
-    // //return basisMatrix * geomMatrix.MultiplyVector(T);
-
-    // return (-Mathf.Pow(time, 3) + 2 * Mathf.Pow(time, 2) - time) * p1 * 0.5f + (3 * Mathf.Pow(time, 3) - 5 * Mathf.Pow(time, 2) + 2) * p2 * 0.5f + (-3 * Mathf.Pow(time, 3) + 4 * Mathf.Pow(time, 2) + time) * p3 * 0.5f + (Mathf.Pow(time, 3) + Mathf.Pow(time, 2)) * p4 * 0.5f;
-
 }
